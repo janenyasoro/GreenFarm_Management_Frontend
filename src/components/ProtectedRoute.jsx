@@ -1,21 +1,34 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+// src/components/ProtectedRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-export default function ProtectedRoute({ children }) {
+const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
+  console.log('🔒 ProtectedRoute - User:', user, 'Loading:', loading);
+
+  // Show loading spinner while checking authentication
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-harvest-700">
-        Loading GreenHarvest...
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
 
+  // If not authenticated, redirect to login
   if (!user) {
+    console.log('🔒 No user found, redirecting to login');
     return <Navigate to="/login" replace />;
   }
 
+  // If authenticated, render the protected content
+  console.log('✅ User authenticated:', user.email);
   return children;
-}
+};
+
+export default ProtectedRoute;

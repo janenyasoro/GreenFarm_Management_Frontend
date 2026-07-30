@@ -1,92 +1,147 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+// src/pages/Register.jsx
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
 
-export default function Register() {
+const Register = () => {
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'owner'
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ full_name: "", email: "", password: "", farm_name: "" });
-  const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSubmitting(true);
+    setError('');
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Validate password length
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      await register(form);
-      navigate("/");
+      const { confirmPassword, ...registrationData } = formData;
+      await register(registrationData);
+      navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.error || "Registration failed. Please try again.");
+      setError(err.response?.data?.error || 'Registration failed. Please try again.');
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-harvest-50 px-4">
-      <div className="card w-full max-w-md p-8">
-        <h1 className="font-display text-3xl font-semibold text-harvest-800 mb-1">GreenHarvest</h1>
-        <p className="text-sm text-harvest-600 mb-6">Create your farm owner account</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Create your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{' '}
+            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+              sign in to your account
+            </Link>
+          </p>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+              <span className="block sm:inline">{error}</span>
+            </div>
+          )}
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="full_name" className="sr-only">Full Name</label>
+              <input
+                id="full_name"
+                name="full_name"
+                type="text"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Full Name"
+                value={formData.full_name}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="sr-only">Email address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Password (min 6 characters)"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-        {error && (
-          <div className="bg-red-50 text-red-700 border border-red-200 rounded-lg px-4 py-2 text-sm mb-4">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-harvest-700 mb-1">Full name</label>
-            <input
-              required
-              className="input-field"
-              value={form.full_name}
-              onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Creating account...' : 'Create account'}
+            </button>
           </div>
-          <div>
-            <label className="block text-xs font-semibold text-harvest-700 mb-1">Farm name</label>
-            <input
-              className="input-field"
-              placeholder="e.g. Green Valley Farm"
-              value={form.farm_name}
-              onChange={(e) => setForm({ ...form, farm_name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-harvest-700 mb-1">Email</label>
-            <input
-              type="email"
-              required
-              className="input-field"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-harvest-700 mb-1">Password</label>
-            <input
-              type="password"
-              required
-              minLength={6}
-              className="input-field"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
-          </div>
-          <button type="submit" disabled={submitting} className="btn-primary w-full">
-            {submitting ? "Creating account..." : "Create account"}
-          </button>
         </form>
-
-        <p className="text-sm text-harvest-600 mt-6 text-center">
-          Already have an account?{" "}
-          <Link to="/login" className="text-harvest-800 font-medium hover:underline">
-            Log in
-          </Link>
-        </p>
       </div>
     </div>
   );
-}
+};
+
+export default Register;
