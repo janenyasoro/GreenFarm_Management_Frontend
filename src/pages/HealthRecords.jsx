@@ -3,7 +3,7 @@
  */
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // React Router v6
-import Layout from "../components/Layout";
+import Layout from "../components/common/Layout";
 import ResourceManager from "../components/ResourceManager";
 
 // Table columns configuration

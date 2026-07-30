@@ -1,34 +1,54 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
+      // 3 theme colors: Green (primary), Amber (secondary), Teal (tertiary)
       colors: {
         harvest: {
-          50: "#f3f7ee",
-          100: "#e2ecd4",
-          200: "#c7dbac",
-          300: "#a4c47a",
-          400: "#84ad54",
-          500: "#63893a",
-          600: "#4c6d2c",
-          700: "#3b5424",
-          800: "#31431f",
-          900: "#2a391d",
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a', // Primary brand color
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
         },
-        clay: {
-          500: "#b8703f",
-          600: "#9c5a30",
+        amber: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706', // Secondary accent color
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
         },
-        soil: {
-          900: "#221c14",
+        teal: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#99f6e4',
+          300: '#5eead4',
+          400: '#2dd4bf',
+          500: '#14b8a6',
+          600: '#0d9488', // Tertiary highlight color
+          700: '#0f766e',
+          800: '#115e59',
+          900: '#134e4a',
         },
       },
       fontFamily: {
-        display: ["'Fraunces'", "serif"],
-        body: ["'Inter'", "sans-serif"],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },
   plugins: [],
-};
+}

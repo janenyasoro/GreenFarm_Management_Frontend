@@ -1,20 +1,27 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, loginAdmin } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const role = params.get('role') || 'owner';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSubmitting(true);
     try {
-      await login(form.email, form.password);
+      if (role === 'admin') {
+        await loginAdmin(form.email, form.password);
+      } else {
+        await login(form.email, form.password);
+      }
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed. Check your credentials.");
@@ -63,10 +70,11 @@ export default function Login() {
 
         <p className="text-sm text-harvest-600 mt-6 text-center">
           Don't have an account?{" "}
-          <Link to="/register" className="text-harvest-800 font-medium hover:underline">
+          <Link to={`/register?role=${role}`} className="text-harvest-800 font-medium hover:underline">
             Register
           </Link>
         </p>
+        <div className="text-xs text-gray-500 mt-3 text-center">Signing in as: <strong>{role}</strong></div>
       </div>
     </div>
   );

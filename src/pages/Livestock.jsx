@@ -1,5 +1,6 @@
+// src/pages/Livestock.jsx
 import React from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/common/Layout";
 import ResourceManager from "../components/ResourceManager";
 
 const columns = [
@@ -8,22 +9,11 @@ const columns = [
     { key: "breed", label: "Breed" },
     { key: "gender", label: "Gender" },
     { key: "status", label: "Status" },
-    {
-        key: "actions",
-        label: "Actions",
-        render: (item) => (
-            <Link href={`/health-records?livestock_id=${item.id}`}>
-                <button className="text-blue-600 hover:underline">
-                    View Health Records
-                </button>
-            </Link>
-        )
-    },
 ];
 
 const fields = [
     { name: "tag_number", label: "Tag number", type: "text" },
-    { name: "animal_type", label: "Animal type (e.g. cattle, goat, poultry)", type: "text" },
+    { name: "animal_type", label: "Animal type (e.g. cattle, goat, poultry)", type: "text", required: true },
     { name: "breed", label: "Breed", type: "text" },
     { name: "birth_date", label: "Birth date", type: "date" },
     { name: "gender", label: "Gender", type: "select", options: ["male", "female"] },
@@ -43,8 +33,16 @@ const emptyRecord = {
 
 export default function Livestock() {
     return (
-        <Layout title="Livestock">
-            <ResourceManager endpoint="/livestock" columns={columns} fields={fields} emptyRecord={emptyRecord} />
+        <Layout>
+            <div className="space-y-6">
+                <h1 className="text-2xl font-bold text-gray-800">Livestock Management</h1>
+                <ResourceManager
+                    endpoint="/livestock"
+                    columns={columns}
+                    fields={fields}
+                    emptyRecord={emptyRecord}
+                />
+            </div>
         </Layout>
     );
 }
