@@ -1,16 +1,9 @@
-// src/pages/Register.jsx
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    full_name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'owner'
-  });
+  const [formData, setFormData] = useState({ full_name: '', email: '', password: '', confirmPassword: '', role: 'owner' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
@@ -18,33 +11,18 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(p => ({ ...p, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    // Validate password length
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
+    if (formData.password !== formData.confirmPassword) { setError('Passwords do not match.'); return; }
+    if (formData.password.length < 6) { setError('Password must be at least 6 characters.'); return; }
     setLoading(true);
-
     try {
-      const { confirmPassword, ...registrationData } = formData;
-      await register(registrationData);
+      const { confirmPassword, ...data } = formData;
+      await register(data);
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed. Please try again.');
@@ -54,91 +32,70 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              sign in to your account
-            </Link>
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-              <span className="block sm:inline">{error}</span>
-            </div>
-          )}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="full_name" className="sr-only">Full Name</label>
-              <input
-                id="full_name"
-                name="full_name"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-                value={formData.full_name}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="sr-only">Email address</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password (min 6 characters)"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-            </div>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#ffffff" }}>
+
+      {/* Brand bar */}
+      <div style={{ backgroundColor: "#1B3B1C", height: "56px", display: "flex", alignItems: "center", padding: "0 1.5rem" }}>
+        <span style={{ color: "#ffffff", fontWeight: 600, fontSize: "0.9375rem", letterSpacing: "0.01em" }}>
+          GreenHarvest Farm Management
+        </span>
+      </div>
+
+      {/* Centered form */}
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "3rem 1.5rem" }}>
+        <div style={{ width: "100%", maxWidth: "380px" }}>
+
+          <div style={{ marginBottom: "2rem" }}>
+            <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600, color: "#243325" }}>Create account</h1>
+            <p style={{ margin: "0.375rem 0 0", fontSize: "0.875rem", color: "#5B6B58" }}>
+              Already have an account?{' '}
+              <Link to="/login" style={{ color: "#2C5F2D", fontWeight: 500 }}>Sign in</Link>
+            </p>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Creating account...' : 'Create account'}
+          {error && <div className="alert-error">{error}</div>}
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-field">
+              <label htmlFor="full_name" className="form-label">Full name</label>
+              <input id="full_name" name="full_name" type="text" required
+                className="form-input"
+                value={formData.full_name} onChange={handleChange} />
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="email" className="form-label">Email address</label>
+              <input id="email" name="email" type="email" autoComplete="email" required
+                className="form-input"
+                value={formData.email} onChange={handleChange} />
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input id="password" name="password" type="password" required
+                className="form-input"
+                value={formData.password} onChange={handleChange} />
+              <p style={{ fontSize: "0.75rem", color: "#5B6B58", marginTop: "0.25rem" }}>Minimum 6 characters</p>
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="confirmPassword" className="form-label">Confirm password</label>
+              <input id="confirmPassword" name="confirmPassword" type="password" required
+                className="form-input"
+                value={formData.confirmPassword} onChange={handleChange} />
+            </div>
+
+            <button type="submit" disabled={loading} className="btn-primary"
+              style={{ width: "100%", justifyContent: "center", marginTop: "0.5rem", height: "2.5rem" }}>
+              {loading ? 'Creating account…' : 'Create account'}
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{ borderTop: "1px solid #e5e7eb", padding: "1rem 1.5rem", fontSize: "0.75rem", color: "#5B6B58", textAlign: "center" }}>
+        © {new Date().getFullYear()} GreenHarvest Farm Management
       </div>
     </div>
   );

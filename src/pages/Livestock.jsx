@@ -17,21 +17,18 @@ const fields = [
     {
         name: "tag_number",
         label: "Tag number",
-        type: "text",
-        placeholder: "e.g., T001"
+        type: "text"
     },
     {
         name: "animal_type",
         label: "Animal type",
         type: "text",
-        placeholder: "e.g., cattle, goat, poultry",
-        required: true  // This is required by backend
+        required: true
     },
     {
         name: "breed",
         label: "Breed",
-        type: "text",
-        placeholder: "e.g., Holstein, Nubian"
+        type: "text"
     },
     {
         name: "birth_date",
