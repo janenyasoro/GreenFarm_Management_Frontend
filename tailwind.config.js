@@ -4,29 +4,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        harvest: {
-          50: "#f3f7ee",
-          100: "#e2ecd4",
-          200: "#c7dbac",
-          300: "#a4c47a",
-          400: "#84ad54",
-          500: "#63893a",
-          600: "#4c6d2c",
-          700: "#3b5424",
-          800: "#31431f",
-          900: "#2a391d",
-        },
-        clay: {
-          500: "#b8703f",
-          600: "#9c5a30",
-        },
-        soil: {
-          900: "#221c14",
-        },
+        forest:     "#2C5F2D",
+        forestDark: "#1B3B1C",
+        moss:       "#6E9B4E",
+        mossLight:  "#E7F0DD",
+        gold:       "#D9A441",
+        ink:        "#243325",
+        muted:      "#5B6B58",
       },
       fontFamily: {
-        display: ["'Fraunces'", "serif"],
-        body: ["'Inter'", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       },
     },
   },
