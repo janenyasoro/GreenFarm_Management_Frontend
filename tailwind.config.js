@@ -6,9 +6,9 @@ export default {
   ],
   theme: {
     extend: {
-      // 3 theme colors: Green (primary), Amber (secondary), Teal (tertiary)
+      // Combined color palettes - keeping both harvest and forest colors
       colors: {
-<<<<<<< HEAD
+        // Original harvest theme colors (Green primary, Amber secondary, Teal tertiary)
         harvest: {
           50: '#f0fdf4',
           100: '#dcfce7',
@@ -45,21 +45,31 @@ export default {
           800: '#115e59',
           900: '#134e4a',
         },
+        // Forest theme colors (from feature/ezra branch)
+        forest: '#2C5F2D',
+        forestDark: '#1B3B1C',
+        moss: '#6E9B4E',
+        mossLight: '#E7F0DD',
+        gold: '#D9A441',
+        ink: '#243325',
+        muted: '#5B6B58',
+        // Also add standard grays for bg-gray-50 support
+        gray: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          200: '#e5e7eb',
+          300: '#d1d5db',
+          400: '#9ca3af',
+          500: '#6b7280',
+          600: '#4b5563',
+          700: '#374151',
+          800: '#1f2937',
+          900: '#111827',
+          950: '#030712',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-=======
-        forest:     "#2C5F2D",
-        forestDark: "#1B3B1C",
-        moss:       "#6E9B4E",
-        mossLight:  "#E7F0DD",
-        gold:       "#D9A441",
-        ink:        "#243325",
-        muted:      "#5B6B58",
-      },
-      fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
->>>>>>> origin/feature/ezra
       },
     },
   },
