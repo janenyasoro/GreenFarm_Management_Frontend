@@ -1,9 +1,7 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
-// Import pages
 import Login from './pages/login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -13,36 +11,31 @@ import Expenses from './pages/Expenses';
 import Income from './pages/Income';
 import Inventory from './pages/Inventory';
 
-// Import components
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
         <Routes>
-          {/* Public routes - no authentication needed */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Root route - redirect to dashboard if authenticated */}
           <Route path="/" element={
             <ProtectedRoute>
               <Navigate to="/dashboard" replace />
             </ProtectedRoute>
           } />
 
-          {/* Dashboard - requires authentication */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
-              <Layout>
+              <Layout title="Dashboard">
                 <Dashboard />
               </Layout>
             </ProtectedRoute>
           } />
 
-          {/* Protected routes - require authentication */}
           <Route path="/livestock" element={
             <ProtectedRoute>
               <Livestock />
@@ -73,7 +66,6 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* Catch all - redirect to login */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
