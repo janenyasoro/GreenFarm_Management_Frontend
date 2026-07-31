@@ -1,5 +1,4 @@
-// Main dashboard - shows stats, activity feed, and role-based admin section
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../context/useAuth';
 import { Link } from 'react-router-dom';
 import {
@@ -12,16 +11,15 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const isAdmin = user?.role === 'admin' || user?.role === 'owner';
 
-    // Mock data - replace with real API calls
     const [stats] = useState({
         totalLivestock: 156,
         totalRevenue: 28450,
         totalExpenses: 12300,
         totalCrops: 45,
         recentActivities: [
-            { id: 1, type: 'livestock', action: 'New calf born - Tag #T045', time: '2 hours ago', icon: '🐄' },
-            { id: 2, type: 'crop', action: 'Harvested 500kg tomatoes from Field B', time: '5 hours ago', icon: '🍅' },
-            { id: 3, type: 'sale', action: 'Sold 10 goats to ABC Farm', time: '1 day ago', icon: '💰' },
+            { id: 1, action: 'New calf born - Tag #T045', time: '2 hours ago', icon: '🐄' },
+            { id: 2, action: 'Harvested 500kg tomatoes from Field B', time: '5 hours ago', icon: '🍅' },
+            { id: 3, action: 'Sold 10 goats to ABC Farm', time: '1 day ago', icon: '💰' },
         ],
         upcomingTasks: [
             { id: 1, title: 'Vaccinate calves', due: 'Today', priority: 'high' },
@@ -43,7 +41,6 @@ const Dashboard = () => {
 
     return (
         <div className="p-4 md:p-6 space-y-6">
-            {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -63,14 +60,12 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Quick Actions */}
             <div className="flex flex-wrap gap-3">
                 <Link to="/livestock" className="btn-primary text-sm"><Plus size={18} /> Add Livestock</Link>
                 <Link to="/expenses" className="btn-secondary text-sm"><Plus size={18} /> Add Expense</Link>
                 <Link to="/income" className="btn-tertiary text-sm"><Plus size={18} /> Record Income</Link>
             </div>
 
-            {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                     { label: 'Total Livestock', value: stats.totalLivestock, icon: <PawPrint size={20} />, color: 'harvest', change: '+12%' },
@@ -97,7 +92,6 @@ const Dashboard = () => {
                 ))}
             </div>
 
-            {/* Recent Activity & Tasks */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="card lg:col-span-2">
                     <div className="flex justify-between items-center mb-4">
@@ -127,18 +121,15 @@ const Dashboard = () => {
                         {stats.upcomingTasks.map((task) => (
                             <div key={task.id} className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition">
                                 <div className="mt-0.5">
-                                    <Activity size={16} className={
-                                        task.priority === 'high' ? 'text-red-500' :
-                                            task.priority === 'medium' ? 'text-amber-500' : 'text-teal-500'
-                                    } />
+                                    <Activity size={16} className={task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-amber-500' : 'text-teal-500'} />
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-sm font-medium text-gray-800">{task.title}</p>
                                     <div className="flex items-center gap-2 mt-1">
                                         <span className="text-xs text-gray-400 flex items-center gap-1"><Calendar size={12} /> {task.due}</span>
-                                        <span className={`text-xs px-2 py-0.5 rounded-full ${task.priority === 'high' ? 'bg-red-100 text-red-700' :
-                                                task.priority === 'medium' ? 'bg-amber-100 text-amber-700' : 'bg-teal-100 text-teal-700'
-                                            }`}>{task.priority}</span>
+                                        <span className={`text-xs px-2 py-0.5 rounded-full ${task.priority === 'high' ? 'bg-red-100 text-red-700' : task.priority === 'medium' ? 'bg-amber-100 text-amber-700' : 'bg-teal-100 text-teal-700'}`}>
+                                            {task.priority}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +138,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Admin Section - visible only to admin/owner */}
             {isAdmin && (
                 <div className="bg-gradient-to-r from-harvest-50 via-amber-50 to-teal-50 rounded-xl p-6 border border-harvest-200">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -170,4 +160,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;      
+export default Dashboard;

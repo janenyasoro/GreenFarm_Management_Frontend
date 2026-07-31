@@ -9,31 +9,10 @@ const columns = [
 ];
 
 const fields = [
-  {
-    name: "category",
-    label: "Category",
-    type: "select",
-    options: ["seeds", "fertilizer", "labor", "veterinary", "equipment", "other"],
-    required: true
-  },
-  {
-    name: "description",
-    label: "Description",
-    type: "text",
-    required: false
-  },
-  {
-    name: "amount",
-    label: "Amount",
-    type: "number",
-    required: true
-  },
-  {
-    name: "date_incurred",
-    label: "Date Incurred",
-    type: "date",
-    required: true
-  },
+  { name: "category", label: "Category", type: "select", options: ["seeds", "fertilizer", "labor", "veterinary", "equipment", "other"], required: true },
+  { name: "description", label: "Description", type: "text", required: false },
+  { name: "amount", label: "Amount", type: "number", required: true },
+  { name: "date_incurred", label: "Date Incurred", type: "date", required: true },
 ];
 
 const emptyRecord = {
@@ -45,13 +24,8 @@ const emptyRecord = {
 
 export default function Expenses() {
   return (
-    <Layout title="Expenses">
-      <ResourceManager
-        endpoint="/expenses"
-        columns={columns}
-        fields={fields}
-        emptyRecord={emptyRecord}
-      />
+    <Layout>
+      <ResourceManager endpoint="/expenses" columns={columns} fields={fields} emptyRecord={emptyRecord} />
     </Layout>
   );
 }

@@ -1,9 +1,7 @@
-// Reusable button component with variants and icon support
-
 const Button = ({
     children,
-    variant = 'primary',   // primary, secondary, tertiary, outline, ghost, danger
-    size = 'md',          // sm, md, lg
+    variant = 'primary',
+    size = 'md',
     className = '',
     onClick,
     disabled = false,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 
 export default function Login() {
@@ -8,9 +8,6 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const role = params.get('role') || 'owner';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +17,7 @@ export default function Login() {
       await login(form.email, form.password);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed. Check your credentials.");
+      setError(err.response?.data?.error || "Login failed. Please check your credentials.");
     } finally {
       setSubmitting(false);
     }
@@ -66,11 +63,10 @@ export default function Login() {
 
         <p className="text-sm text-harvest-600 mt-6 text-center">
           Don't have an account?{" "}
-          <Link to={`/register?role=${role}`} className="text-harvest-800 font-medium hover:underline">
+          <Link to="/register" className="text-harvest-800 font-medium hover:underline">
             Register
           </Link>
         </p>
-        <div className="text-xs text-gray-500 mt-3 text-center">Signing in as: <strong>{role}</strong></div>
       </div>
     </div>
   );

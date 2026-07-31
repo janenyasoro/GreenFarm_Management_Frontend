@@ -1,4 +1,3 @@
-// Public landing page - showcases the platform and encourages signup
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import {
@@ -21,7 +20,6 @@ import Button from '../components/ui/Button';
 const Home = () => {
     const { user } = useAuth();
 
-    // Features data
     const features = [
         {
             icon: <PawPrint size={28} className="text-harvest-600" />,
@@ -55,7 +53,6 @@ const Home = () => {
         },
     ];
 
-    // Testimonials data
     const testimonials = [
         {
             name: 'Jane Akinyi',
@@ -77,7 +74,6 @@ const Home = () => {
         },
     ];
 
-    // Stats data
     const stats = [
         { label: 'Active Users', value: '5,000+', icon: <Users size={20} /> },
         { label: 'Farms Managed', value: '2,500+', icon: <Building2 size={20} /> },
@@ -87,7 +83,6 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Navigation - Simple variant for landing page */}
             <nav className="container-custom py-4 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     <span className="text-2xl">🌾</span>
@@ -111,7 +106,6 @@ const Home = () => {
                 </div>
             </nav>
 
-            {/* Hero Section */}
             <section className="container-custom py-16 md:py-24">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
@@ -182,7 +176,6 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* Floating badges */}
                         <div className="absolute -top-4 -right-4 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
                             🌟 Popular
                         </div>
@@ -193,7 +186,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
             <section className="bg-gray-50 py-12 border-y border-gray-100">
                 <div className="container-custom">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -208,54 +200,38 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Features Section */}
             <section id="features" className="container-custom py-16 md:py-20">
                 <div className="text-center max-w-2xl mx-auto mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-                        Everything You Need to <span className="text-harvest-600">Manage Your Farm</span>
-                    </h2>
-                    <p className="mt-4 text-gray-600">
-                        From livestock to finances, GreenFarm provides all the tools you need in one place.
-                    </p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Everything Your Farm Needs</h2>
+                    <p className="mt-3 text-gray-600">A complete suite of tools designed to help you manage your agricultural operations efficiently.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {features.map((feature, idx) => (
-                        <div key={idx} className="card-hover group">
-                            <div className="w-12 h-12 bg-harvest-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-harvest-100 transition">
-                                {feature.icon}
-                            </div>
-                            <h3 className="text-lg font-semibold text-gray-800">{feature.title}</h3>
-                            <p className="text-gray-500 text-sm mt-1">{feature.description}</p>
+                        <div key={idx} className="card-hover">
+                            <div className="mb-4">{feature.icon}</div>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{feature.title}</h3>
+                            <p className="text-gray-600">{feature.description}</p>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* Testimonials */}
-            <section className="bg-gradient-to-r from-harvest-50 via-amber-50 to-teal-50 py-16">
+            <section className="bg-gray-50 py-16">
                 <div className="container-custom">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-bold text-gray-800">
-                            What Our <span className="text-harvest-600">Farmers Say</span>
-                        </h2>
+                    <div className="text-center max-w-2xl mx-auto mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Trusted by Farmers Everywhere</h2>
+                        <p className="mt-3 text-gray-600">See what our users are saying about GreenFarm.</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {testimonials.map((testimonial, idx) => (
-                            <div key={idx} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                                <div className="flex gap-1 text-amber-500 mb-2">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star key={i} size={16} fill={i < testimonial.rating ? '#f59e0b' : 'none'} />
-                                    ))}
+                            <div key={idx} className="card">
+                                <div className="flex items-center gap-1 text-amber-500 mb-4">
+                                    {Array.from({ length: testimonial.rating }).map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
                                 </div>
-                                <p className="text-gray-600 text-sm italic">"{testimonial.content}"</p>
-                                <div className="mt-4 flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-harvest-500 to-teal-500 flex items-center justify-center text-white font-bold">
-                                        {testimonial.name.charAt(0)}
-                                    </div>
-                                    <div>
-                                        <p className="font-medium text-gray-800 text-sm">{testimonial.name}</p>
-                                        <p className="text-xs text-gray-500">{testimonial.role}</p>
-                                    </div>
+                                <p className="text-gray-600 mb-4">“{testimonial.content}”</p>
+                                <div>
+                                    <p className="font-semibold text-gray-800">{testimonial.name}</p>
+                                    <p className="text-sm text-gray-500">{testimonial.role}</p>
                                 </div>
                             </div>
                         ))}
@@ -263,49 +239,27 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* CTA Section */}
             <section className="container-custom py-16 md:py-20">
-                <div className="bg-gradient-to-r from-harvest-600 to-teal-600 rounded-2xl p-8 md:p-12 text-center text-white">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        Ready to Transform Your Farm?
-                    </h2>
-                    <p className="text-white/80 max-w-xl mx-auto mb-6">
-                        Join thousands of farmers who are already using GreenFarm to grow their business.
-                    </p>
-                    <div className="flex flex-wrap justify-center gap-4">
+                <div className="bg-gradient-to-r from-harvest-600 to-teal-600 rounded-3xl p-8 md:p-12 text-white text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold">Ready to Transform Your Farm?</h2>
+                    <p className="mt-4 text-harvest-50 max-w-2xl mx-auto">Join thousands of farmers using GreenFarm to make better decisions, save time, and increase profitability.</p>
+                    <div className="mt-8 flex flex-wrap justify-center gap-4">
                         <Link to={user ? "/dashboard" : "/register"}>
-                            <Button variant="secondary" size="lg" icon={ArrowRight} iconPosition="right" className="bg-white text-harvest-700 hover:bg-gray-100">
-                                {user ? "Go to Dashboard" : "Get Started Free"}
+                            <Button variant="primary" size="lg" icon={ArrowRight} iconPosition="right">
+                                {user ? "Go to Dashboard" : "Start Free Trial"}
                             </Button>
                         </Link>
                         <Link to="/login">
-                            <Button variant="ghost" size="lg" className="border-2 border-white text-white hover:bg-white/10">
-                                Sign In
-                            </Button>
+                            <Button variant="ghost" size="lg">Sign In</Button>
                         </Link>
                     </div>
-                    <p className="text-white/60 text-sm mt-4">No credit card required • Free 14-day trial</p>
                 </div>
             </section>
 
-            {/* Footer */}
-            <footer className="bg-gray-900 text-gray-400 py-8">
-                <div className="container-custom">
-                    <div className="flex flex-col md:flex-row justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <span className="text-2xl">🌾</span>
-                            <span className="text-lg font-bold text-white">GreenFarm</span>
-                        </div>
-                        <div className="flex items-center gap-4 text-sm mt-4 md:mt-0">
-                            <a href="#" className="hover:text-white transition">Privacy Policy</a>
-                            <a href="#" className="hover:text-white transition">Terms of Service</a>
-                            <a href="#" className="hover:text-white transition">Contact</a>
-                            <span className="flex items-center gap-1">
-                                Made with <Heart size={14} className="text-red-500" /> for farmers
-                            </span>
-                        </div>
-                    </div>
-                    <p className="text-center text-xs mt-4">© {new Date().getFullYear()} GreenFarm. All rights reserved.</p>
+            <footer className="border-t border-gray-100 py-6">
+                <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+                    <p>© {new Date().getFullYear()} GreenFarm. All rights reserved.</p>
+                    <p className="flex items-center gap-1"><Heart size={14} className="text-red-500" /> Made with care for farmers</p>
                 </div>
             </footer>
         </div>

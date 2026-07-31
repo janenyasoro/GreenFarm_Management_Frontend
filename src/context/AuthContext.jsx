@@ -1,21 +1,17 @@
-// Authentication context - manages user session, login, register, and logout
 import { createContext, useEffect, useState } from "react";
 import api from "../api/api";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  // Load user from localStorage on initial render (persists across refreshes)
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem("gh_user");
     return stored ? JSON.parse(stored) : null;
   });
-
   const [farm, setFarm] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem("gh_token") || null);
   const [loading, setLoading] = useState(() => !!localStorage.getItem("gh_token"));
 
-  // Auto-set auth header when token changes
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -24,7 +20,6 @@ export function AuthProvider({ children }) {
     }
   }, [token]);
 
-  // Verify token on app load - check if stored token is still valid
   useEffect(() => {
     const storedToken = localStorage.getItem("gh_token");
     if (!storedToken) {
@@ -40,7 +35,6 @@ export function AuthProvider({ children }) {
         setFarm(null);
       })
       .catch(() => {
-        // Token invalid - clear storage
         localStorage.removeItem("gh_token");
         localStorage.removeItem("gh_user");
         setUser(null);
@@ -49,7 +43,6 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  // Login function - authenticates user and stores token
   const login = async (email, password) => {
     try {
       const res = await api.post("/auth/login", { email, password });
@@ -69,7 +62,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Register function - creates new user account
   const register = async (payload) => {
     try {
       const res = await api.post("/auth/register", payload);
@@ -89,7 +81,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Logout - clears all session data
   const logout = () => {
     localStorage.removeItem("gh_token");
     localStorage.removeItem("gh_user");
@@ -99,7 +90,6 @@ export function AuthProvider({ children }) {
     setToken(null);
   };
 
-  // Update user in state and localStorage
   const updateUser = (updatedUser) => {
     setUser(updatedUser);
     localStorage.setItem("gh_user", JSON.stringify(updatedUser));
@@ -107,7 +97,6 @@ export function AuthProvider({ children }) {
 
   const updateFarm = (newFarm) => setFarm(newFarm);
 
-  // Context value - exposed to all consumers
   const value = {
     user,
     farm,

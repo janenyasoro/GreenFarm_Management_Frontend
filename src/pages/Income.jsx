@@ -9,31 +9,10 @@ const columns = [
 ];
 
 const fields = [
-  {
-    name: "source",
-    label: "Source",
-    type: "select",
-    options: ["crop_sale", "livestock_sale", "other"],
-    required: true
-  },
-  {
-    name: "description",
-    label: "Description",
-    type: "text",
-    required: false
-  },
-  {
-    name: "amount",
-    label: "Amount",
-    type: "number",
-    required: true
-  },
-  {
-    name: "date_received",
-    label: "Date Received",
-    type: "date",
-    required: true
-  },
+  { name: "source", label: "Source", type: "select", options: ["crop_sale", "livestock_sale", "other"], required: true },
+  { name: "description", label: "Description", type: "text", required: false },
+  { name: "amount", label: "Amount", type: "number", required: true },
+  { name: "date_received", label: "Date Received", type: "date", required: true },
 ];
 
 const emptyRecord = {
@@ -45,13 +24,8 @@ const emptyRecord = {
 
 export default function Income() {
   return (
-    <Layout title="Income">
-      <ResourceManager
-        endpoint="/income"
-        columns={columns}
-        fields={fields}
-        emptyRecord={emptyRecord}
-      />
+    <Layout>
+      <ResourceManager endpoint="/income" columns={columns} fields={fields} emptyRecord={emptyRecord} />
     </Layout>
   );
 }

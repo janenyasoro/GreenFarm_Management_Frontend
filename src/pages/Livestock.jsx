@@ -1,4 +1,3 @@
-// src/pages/Livestock.jsx
 import Layout from "../components/common/Layout";
 import ResourceManager from "../components/ResourceManager";
 
@@ -33,15 +32,12 @@ const emptyRecord = {
 export default function Livestock() {
     return (
         <Layout>
-            <div className="space-y-6">
-                <h1 className="text-2xl font-bold text-gray-800">Livestock Management</h1>
-                <ResourceManager
-                    endpoint="/livestock"
-                    columns={columns}
-                    fields={fields}
-                    emptyRecord={emptyRecord}
-                />
-            </div>
+            <ResourceManager
+                endpoint="/livestock"
+                columns={columns}
+                fields={fields}
+                emptyRecord={emptyRecord}
+            />
         </Layout>
     );
 }

@@ -1,8 +1,6 @@
-// Root component - sets up routing and authentication protection
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
-// Pages
 import Login from './pages/login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -14,8 +12,6 @@ import Income from './pages/Income';
 import Inventory from './pages/Inventory';
 import Users from './pages/Admin/Users';
 import Farms from './pages/Admin/Farms';
-
-// Components
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Layout from './components/common/Layout';
 
@@ -24,12 +20,10 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* Public routes - no auth required */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Protected routes - user must be logged in */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Layout><Dashboard /></Layout>
@@ -66,7 +60,6 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* Admin routes - require admin role */}
           <Route path="/admin/users" element={
             <ProtectedRoute requireAdmin>
               <Layout><Users /></Layout>
@@ -79,7 +72,6 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* 404 fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

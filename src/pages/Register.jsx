@@ -5,7 +5,7 @@ import { useAuth } from "../context/useAuth";
 export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ full_name: "", email: "", password: "", farm_name: "" });
+  const [formData, setFormData] = useState({ full_name: "", email: "", password: "", farm_name: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -14,8 +14,8 @@ export default function Register() {
     setError("");
     setSubmitting(true);
     try {
-      await register(form);
-      navigate("/");
+      await register(formData);
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed. Please try again.");
     } finally {
@@ -41,8 +41,8 @@ export default function Register() {
             <input
               required
               className="input-field"
-              value={form.full_name}
-              onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+              value={formData.full_name}
+              onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
             />
           </div>
           <div>
@@ -50,8 +50,8 @@ export default function Register() {
             <input
               className="input-field"
               placeholder="e.g. Green Valley Farm"
-              value={form.farm_name}
-              onChange={(e) => setForm({ ...form, farm_name: e.target.value })}
+              value={formData.farm_name}
+              onChange={(e) => setFormData({ ...formData, farm_name: e.target.value })}
             />
           </div>
           <div>
@@ -60,8 +60,8 @@ export default function Register() {
               type="email"
               required
               className="input-field"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
           <div>
@@ -71,8 +71,8 @@ export default function Register() {
               required
               minLength={6}
               className="input-field"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
           </div>
           <button type="submit" disabled={submitting} className="btn-primary w-full">
