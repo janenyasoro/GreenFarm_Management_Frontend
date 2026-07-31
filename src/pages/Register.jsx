@@ -1,23 +1,40 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 
 export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ full_name: "", email: "", password: "", farm_name: "" });
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({ full_name: '', email: '', password: '', confirmPassword: '', role: 'owner' });
+  const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await register(formData);
-      navigate("/login");
+      const { confirmPassword, ...payload } = formData;
+      await register(payload);
+      navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.error || "Registration failed. Please try again.");
+      setError(err.response?.data?.error || 'Registration failed. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -42,16 +59,8 @@ export default function Register() {
               required
               className="input-field"
               value={formData.full_name}
-              onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-semibold text-harvest-700 mb-1">Farm name</label>
-            <input
-              className="input-field"
-              placeholder="e.g. Green Valley Farm"
-              value={formData.farm_name}
-              onChange={(e) => setFormData({ ...formData, farm_name: e.target.value })}
+              onChange={handleChange}
+              name="full_name"
             />
           </div>
           <div>
@@ -61,7 +70,8 @@ export default function Register() {
               required
               className="input-field"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={handleChange}
+              name="email"
             />
           </div>
           <div>
@@ -72,16 +82,28 @@ export default function Register() {
               minLength={6}
               className="input-field"
               value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              onChange={handleChange}
+              name="password"
             />
           </div>
-          <button type="submit" disabled={submitting} className="btn-primary w-full">
-            {submitting ? "Creating account..." : "Create account"}
+          <div>
+            <label className="block text-xs font-semibold text-harvest-700 mb-1">Confirm password</label>
+            <input
+              type="password"
+              required
+              className="input-field"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              name="confirmPassword"
+            />
+          </div>
+          <button type="submit" disabled={submitting} className="btn-primary w-full justify-center">
+            {submitting ? 'Creating account...' : 'Create account'}
           </button>
         </form>
 
         <p className="text-sm text-harvest-600 mt-6 text-center">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link to="/login" className="text-harvest-800 font-medium hover:underline">
             Log in
           </Link>

@@ -8,6 +8,7 @@ export default {
     extend: {
       // 3 theme colors: Green (primary), Amber (secondary), Teal (tertiary)
       colors: {
+<<<<<<< HEAD
         harvest: {
           50: '#f0fdf4',
           100: '#dcfce7',
@@ -47,6 +48,18 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+=======
+        forest:     "#2C5F2D",
+        forestDark: "#1B3B1C",
+        moss:       "#6E9B4E",
+        mossLight:  "#E7F0DD",
+        gold:       "#D9A441",
+        ink:        "#243325",
+        muted:      "#5B6B58",
+      },
+      fontFamily: {
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+>>>>>>> origin/feature/ezra
       },
     },
   },

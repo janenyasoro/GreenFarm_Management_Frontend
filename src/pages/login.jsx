@@ -1,23 +1,29 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setSubmitting(true);
     try {
       await login(form.email, form.password);
-      navigate("/dashboard");
+      navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed. Please check your credentials.");
+      setError(err.response?.data?.error || 'Login failed. Please check your credentials.');
     } finally {
       setSubmitting(false);
     }
@@ -43,7 +49,7 @@ export default function Login() {
               required
               className="input-field"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onChange={(e) => setForm({ ...form, email: e.target.value }) }
             />
           </div>
           <div>
@@ -53,16 +59,16 @@ export default function Login() {
               required
               className="input-field"
               value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              onChange={(e) => setForm({ ...form, password: e.target.value }) }
             />
           </div>
-          <button type="submit" disabled={submitting} className="btn-primary w-full">
-            {submitting ? "Logging in..." : "Log in"}
+          <button type="submit" disabled={submitting} className="btn-primary w-full justify-center">
+            {submitting ? 'Logging in...' : 'Log in'}
           </button>
         </form>
 
         <p className="text-sm text-harvest-600 mt-6 text-center">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{' '}
           <Link to="/register" className="text-harvest-800 font-medium hover:underline">
             Register
           </Link>

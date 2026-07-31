@@ -28,13 +28,14 @@ const Dashboard = () => {
     });
 
     useEffect(() => {
-        setTimeout(() => setLoading(false), 800);
+        const timeout = setTimeout(() => setLoading(false), 800);
+        return () => clearTimeout(timeout);
     }, []);
 
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-harvest-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-harvest-600" />
             </div>
         );
     }
@@ -46,7 +47,7 @@ const Dashboard = () => {
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                         Welcome back, {user?.full_name?.split(' ')[0] || 'User'}! 👋
                     </h1>
-                    <p className="text-gray-500 mt-1">Here's what's happening on your farm today</p>
+                    <p className="text-gray-500 mt-1">Here is what is happening on your farm today.</p>
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-auto">
                     <div className="relative flex-1 md:flex-none">
