@@ -1,10 +1,10 @@
 // Main dashboard - shows stats, activity feed, and role-based admin section
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/useAuth';
 import { Link } from 'react-router-dom';
 import {
-    PawPrint, DollarSign, TrendingUp, Package, Users, Building2,
-    ArrowUpRight, ArrowDownRight, Calendar, Bell, Search, Plus, MoreVertical, Sprout, Activity
+    PawPrint, DollarSign, TrendingUp, Users, Building2,
+    ArrowUpRight, Calendar, Bell, Search, Plus, MoreVertical, Sprout, Activity
 } from 'lucide-react';
 
 const Dashboard = () => {

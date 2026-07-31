@@ -1,5 +1,5 @@
 // Admin page - manage all platform users
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Plus, Edit, Trash2, Mail, Building2, MoreVertical, Shield, UserCog, UserCheck } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import Badge from '../../components/ui/Badge';

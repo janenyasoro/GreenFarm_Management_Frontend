@@ -1,7 +1,6 @@
 // Route wrapper - blocks access to non-authenticated users
-import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const { user, loading } = useAuth();

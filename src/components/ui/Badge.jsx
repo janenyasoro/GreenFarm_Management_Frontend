@@ -1,5 +1,4 @@
 // Status badge with theme variants
-import React from 'react';
 
 const Badge = ({ children, variant = 'harvest', className = '', ...props }) => {
     const variants = {

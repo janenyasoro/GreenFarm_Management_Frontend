@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 export default function Login() {
-  const { login, loginAdmin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -17,12 +17,8 @@ export default function Login() {
     setError("");
     setSubmitting(true);
     try {
-      if (role === 'admin') {
-        await loginAdmin(form.email, form.password);
-      } else {
-        await login(form.email, form.password);
-      }
-      navigate("/");
+      await login(form.email, form.password);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed. Check your credentials.");
     } finally {

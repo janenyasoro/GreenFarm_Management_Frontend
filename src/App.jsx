@@ -1,5 +1,4 @@
 // Root component - sets up routing and authentication protection
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 

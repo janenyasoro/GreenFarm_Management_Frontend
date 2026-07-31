@@ -2,13 +2,8 @@
 // Axios instance with interceptors for auth token management
 import axios from 'axios';
 
-// Use the full backend URL - NOT the proxy
-// For development, use localhost:5000
-// For production, this should be your deployed backend URL
-const API_BASE_URL = 'http://localhost:5000/api';
-
-// Use this if you want to use the proxy (uncomment if proxy is configured in vite.config.js)
-// const API_BASE_URL = '/api';
+// Prefer an explicit deployment URL, then fall back to localhost in dev.
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:5000/api' : '/api');
 
 const api = axios.create({
     baseURL: API_BASE_URL,

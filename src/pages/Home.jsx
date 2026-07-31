@@ -1,25 +1,19 @@
 // Public landing page - showcases the platform and encourages signup
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import {
     PawPrint,
     DollarSign,
-    TrendingUp,
     Package,
     Users,
     Building2,
     Sprout,
-    Shield,
     Calendar,
     ArrowRight,
     CheckCircle,
     Star,
-    Truck,
-    Leaf,
     Heart,
     Award,
-    Clock,
     BarChart3
 } from 'lucide-react';
 import Button from '../components/ui/Button';

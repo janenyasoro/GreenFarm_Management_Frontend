@@ -1,10 +1,10 @@
 // Main navigation with role-based links and mobile responsiveness
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/useAuth";
 import {
   LayoutDashboard, PawPrint, DollarSign, TrendingUp, Package,
-  Users, Settings, LogOut, Menu, X, ChevronDown, UserCircle
+  Users, Settings, LogOut, Menu, X, ChevronDown
 } from "lucide-react";
 
 const Navbar = () => {

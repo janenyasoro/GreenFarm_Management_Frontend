@@ -1,5 +1,5 @@
 // Authentication context - manages user session, login, register, and logout
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import api from "../api/api";
 
 const AuthContext = createContext(null);
@@ -12,8 +12,8 @@ export function AuthProvider({ children }) {
   });
 
   const [farm, setFarm] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(() => localStorage.getItem("gh_token") || null);
+  const [loading, setLoading] = useState(() => !!localStorage.getItem("gh_token"));
 
   // Auto-set auth header when token changes
   useEffect(() => {
@@ -28,7 +28,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const storedToken = localStorage.getItem("gh_token");
     if (!storedToken) {
-      setLoading(false);
       return;
     }
 
@@ -123,13 +122,6 @@ export function AuthProvider({ children }) {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-// Custom hook - easier access to auth context
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within an AuthProvider");
-  return context;
 }
 
 export default AuthContext;

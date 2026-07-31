@@ -1,5 +1,3 @@
-// src/pages/Expenses.jsx
-import React from "react";
 import Layout from "../components/common/Layout";
 import ResourceManager from "../components/ResourceManager";
 

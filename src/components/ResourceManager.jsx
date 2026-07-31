@@ -1,6 +1,6 @@
 // src/components/ResourceManager.jsx
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/useAuth";
 import api from "../api/api";
 
 const ResourceManager = ({ endpoint, columns, fields, emptyRecord }) => {
@@ -30,10 +30,11 @@ const ResourceManager = ({ endpoint, columns, fields, emptyRecord }) => {
         return dateString;
     };
 
-    // Fetch data
-    const fetchData = async () => {
+    const loadData = async ({ showLoading = false } = {}) => {
         try {
-            setLoading(true);
+            if (showLoading) {
+                setLoading(true);
+            }
             setError(null);
             console.log(`📤 Fetching data from: ${endpoint}`);
 
@@ -62,9 +63,44 @@ const ResourceManager = ({ endpoint, columns, fields, emptyRecord }) => {
     };
 
     useEffect(() => {
-        if (token) {
-            fetchData();
-        }
+        if (!token) return;
+
+        let isActive = true;
+
+        const initialLoad = async () => {
+            try {
+                const response = await api.get(endpoint);
+
+                if (!isActive) return;
+
+                if (Array.isArray(response.data)) {
+                    setData(response.data);
+                } else {
+                    console.error('❌ Data is not an array:', response.data);
+                    setData([]);
+                    setError('Invalid data format received from server');
+                }
+            } catch (err) {
+                if (!isActive) return;
+
+                console.error(`❌ Fetch error:`, err);
+                if (err.response?.data?.includes && err.response.data.includes('<!doctype html>')) {
+                    setError('API endpoint not found. Please check your backend URL.');
+                } else {
+                    setError(err.response?.data?.error || "Failed to fetch data");
+                }
+            } finally {
+                if (isActive) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        void initialLoad();
+
+        return () => {
+            isActive = false;
+        };
     }, [endpoint, token]);
 
     // Handle form submit
@@ -100,7 +136,7 @@ const ResourceManager = ({ endpoint, columns, fields, emptyRecord }) => {
                 await api.post(endpoint, formattedData);
             }
 
-            await fetchData();
+            await loadData({ showLoading: true });
             handleCloseForm();
         } catch (err) {
             console.error(`❌ Save error:`, err);
@@ -112,7 +148,7 @@ const ResourceManager = ({ endpoint, columns, fields, emptyRecord }) => {
         if (!window.confirm("Are you sure you want to delete this record?")) return;
         try {
             await api.delete(`${endpoint}/${id}`);
-            await fetchData();
+            await loadData({ showLoading: true });
         } catch (err) {
             console.error(`❌ Delete error:`, err);
             setError("Failed to delete record");

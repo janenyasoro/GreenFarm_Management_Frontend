@@ -1,5 +1,5 @@
 // Admin page - manage all farms on the platform
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Plus, Edit, Trash2, MapPin, MoreVertical, Building2, PawPrint, Sprout } from 'lucide-react';
 import Card from '../../components/ui/Card';
 import Badge from '../../components/ui/Badge';

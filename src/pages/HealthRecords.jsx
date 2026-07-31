@@ -1,7 +1,7 @@
 /**
  * Health Records Management Page (React Router version)
  */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // React Router v6
 import Layout from "../components/common/Layout";
 import ResourceManager from "../components/ResourceManager";
@@ -43,24 +43,36 @@ export default function HealthRecords() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (livestock_id) {
-            fetchAnimalDetails(livestock_id);
-        }
-    }, [livestock_id]);
+        if (!livestock_id) return;
 
-    const fetchAnimalDetails = async (id) => {
-        try {
-            const response = await fetch(`/api/livestock/${id}`);
-            if (response.ok) {
-                const data = await response.json();
-                setAnimal(data);
+        let isActive = true;
+
+        const loadAnimalDetails = async () => {
+            try {
+                const response = await fetch(`/api/livestock/${livestock_id}`);
+                if (!isActive) return;
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setAnimal(data);
+                }
+            } catch (error) {
+                if (isActive) {
+                    console.error("Error fetching animal details:", error);
+                }
+            } finally {
+                if (isActive) {
+                    setLoading(false);
+                }
             }
-        } catch (error) {
-            console.error("Error fetching animal details:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        void loadAnimalDetails();
+
+        return () => {
+            isActive = false;
+        };
+    }, [livestock_id]);
 
     if (loading) {
         return (

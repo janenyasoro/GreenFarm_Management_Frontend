@@ -1,5 +1,4 @@
 // Wraps authenticated pages with Navbar and Footer
-import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 

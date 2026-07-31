@@ -1,5 +1,4 @@
 // Reusable button component with variants and icon support
-import React from 'react';
 
 const Button = ({
     children,
