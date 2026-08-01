@@ -45,7 +45,7 @@ GreenFarm_Management_Frontend/
 Create a `.env` file in the root of the frontend directory and set the backend API base URL:
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000
+VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
 ## Features
