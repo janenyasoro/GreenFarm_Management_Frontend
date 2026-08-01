@@ -3,11 +3,23 @@ import api from "../api/api";
 
 const AuthContext = createContext(null);
 
+function loadStoredUser() {
+  const stored = localStorage.getItem("gh_user");
+
+  if (!stored) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(stored);
+  } catch {
+    localStorage.removeItem("gh_user");
+    return null;
+  }
+}
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("gh_user");
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState(() => loadStoredUser());
   const [farm, setFarm] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem("gh_token") || null);
   const [loading, setLoading] = useState(() => !!localStorage.getItem("gh_token"));
