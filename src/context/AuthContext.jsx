@@ -65,15 +65,14 @@ export function AuthProvider({ children }) {
   const register = async (payload) => {
     try {
       const res = await api.post("/auth/register", payload);
-      const { user } = res.data;
+      const { access_token, user } = res.data;
 
-      if (res.data.access_token) {
-        localStorage.setItem("gh_token", res.data.access_token);
-        api.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-        setToken(res.data.access_token);
-      }
-
+      localStorage.setItem("gh_token", access_token);
+      localStorage.setItem("gh_user", JSON.stringify(user));
+      api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+      setToken(access_token);
       setUser(user);
+
       return res.data;
     } catch (error) {
       console.error("Registration error:", error);

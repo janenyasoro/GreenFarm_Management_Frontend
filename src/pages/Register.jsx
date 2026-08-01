@@ -32,7 +32,7 @@ export default function Register() {
     try {
       const { confirmPassword, ...payload } = formData;
       await register(payload);
-      navigate('/login');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed. Please try again.');
     } finally {
